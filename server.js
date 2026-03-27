@@ -23,6 +23,7 @@ const csrf = require('csurf');
 const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
 app.use(helmet({
+    hsts: false, // DESATIVE ISSO para funcionar via HTTP (IP direto)
     contentSecurityPolicy: {
         directives: {
             "default-src": ["'self'"],
