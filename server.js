@@ -5,10 +5,10 @@ const app = express();
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.CONNECTIONSTRING)
-    .then(() => {
+.then(() => {
     app.emit('pronto');
-    })
-    .catch(e => console.log(e));
+})
+.catch(e => console.log(e));
 
 const session = require('express-session');
 const { MongoStore } = require('connect-mongo');
@@ -22,7 +22,18 @@ const helmet = require('helmet');
 const csrf = require('csurf');
 const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            "default-src": ["'self'"],
+            "script-src": ["'self'", "https://cdn.jsdelivr.net"],
+            "style-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+            "connect-src": ["'self'", "https://cdn.jsdelivr.net"],
+            "font-src": ["'self'", "https://cdn.jsdelivr.net"],
+            "img-src": ["'self'", "data:"]
+        }
+    }
+}));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());

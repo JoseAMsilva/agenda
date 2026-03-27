@@ -1,29 +1,38 @@
-<%- include('includes/head'); %>
+<%- include('includes/head.ejs') %>
+<%- include('includes/nav.ejs') %>
 
-<body>
-    <section class="container">
-        <div class="centro">
-        <h1 class="titulo">Formulário de cadastros</h1>
-            <form action="/" method="post" id="input-form" class="form-control">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                
-                <label class="label" for="input-name">Nome:</label>
-                <input id="input-name" class="formulario nome validar" action="" method="post" type="text" name="cliente">
+<div class="container">
+    <div class="row">
+        <div class="col-lg2"></div>
 
-                <label class="label" for="cpf">CPF:</label>
-                <input id="input-cpf" class="formulario cpf validar" action="" method="post" type="text" name="cpf">
+        <div class="col-lg8 my-3" >
+            <h1 class="text-center">Agenda</h1>
+            <p class="text-center lead">Contatos abaixo</p>
 
-                <label class="label" for="usuario">Usuário:</label>
-                <input id="input-usuario" class="formulario usuario validar" action="" method="post" type="text" name="usuario">
+            <%- include('includes/messages')%>
 
-                <label class="label" for="senha">Senha</label>
-                <input id="input-senha" class="formulario senha validar" action="" method="post" type="password" name="senha">
+            <% if(contatos.length > 0) { %>
+            <div class="responsive-tabe">
+                <table class="table my-3">
+                    <%contatos.forEach(contato => { %>
+                        <tr>
+                            <td><%= contato.nome %></td>
+                            <td><%= contato.sobrenome %></td>
+                            <td><%= contato.email %></td>
+                            <td><%= contato.telefone %></td>
+                            <td><a href="/contato/<%= contato._id %>">Editar</a></td>
+                            <td><a href="/contato/delete/<%= contato._id %>" class="text-danger">Excluir</a></td>
+                         </tr>
+                    <% }); %>
+                </table>
+            </div>
+            <% } else { %>
+                <p class="text-center lead">Nenhum contato adicionado</p>
+            <% } %>
+        </div>
 
-                <label class="label" for="confirmar-senha">Confirmar Senha</label>
-                <input id="confirmar-senha" class="formulario confirmar-senha validar" action="" method="post" type="password">
-                <button id="enviar" class="btn" type="submit">Enviar</button>
-            </form>
-       </div>
-    </section>
+        <div class="col-lg2"></div>
+    </div>
+</div>
 
-<%- include('includes/footer.ejs'); %>
+<%- include('includes/footer.ejs') %>
