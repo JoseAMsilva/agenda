@@ -23,7 +23,7 @@ const csrf = require('csurf');
 const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
 app.use(helmet({
-    hsts: false, // DESATIVE ISSO para funcionar via HTTP (IP direto)
+    hsts: true,
     contentSecurityPolicy: {
         directives: {
             "default-src": ["'self'"],
@@ -48,7 +48,7 @@ const sessionOptions = session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
-        secure: false
+        secure: true,
     }
 });
 
